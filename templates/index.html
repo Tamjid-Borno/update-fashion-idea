@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Fashion Idea - your best fashion shop</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/tiny-slider.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a1b9a;
+            --secondary-color: #f3e5f500;
+            --accent-color: #9c27b0;
+            --text-color: #333;
+            --light-text-color: #fff;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: #fafafa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* Navigation Styles */
+        nav {
+            background-color: var(--primary-color);
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--light-text-color);
+        }
+        .search-bar {
+            flex-grow: 1;
+            margin: 10px 20px;
+            position: relative;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border: none;
+            border-radius: 25px;
+            background-color: rgba(255,255,255,0.2);
+            color: var(--light-text-color);
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .search-bar input:focus {
+            outline: none;
+            background-color: rgba(255,255,255,0.3);
+        }
+        .search-bar input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-text-color);
+            font-size: 20px;
+        }
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+        .account-icon, .cart-icon {
+            font-size: 24px;
+            color: var(--light-text-color);
+            margin-left: 20px;
+            cursor: pointer;
+        }
+      
+        .nav-bottom a {
+            text-decoration: none;
+            color: var(--light-text-color);
+            padding: 5px 10px;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+        .nav-bottom a:hover {
+            color: var(--secondary-color);
+        }
+        /* Hero Section Styles */
+        .hero {
+            margin-top: 20px;
+            position: relative;
+        }
+        .carousel-item {
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            font-size: 28px;
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255,255,255,0.7);
+            border: none;
+            font-size: 24px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+        .carousel-button:hover {
+            background-color: rgba(255,255,255,0.9);
+        }
+        .carousel-button.prev {
+            left: 10px;
+        }
+        .carousel-button.next {
+            right: 10px;
+        }
+        /* Product Section Styles */
+        .products {
+            margin-top: 60px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .product-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            height: auto;
+            max-height: 350px;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .product-card img {
+            width: 100%; /* Fixed width */
+    height: 70%; /* Fixed height */
+    object-fit: cover; /* Maintain aspect ratio, cover the fixed size */
+        }
+        .product-info {
+            padding: 15px;
+        }
+        .product-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            margin-top:0px;
+        }
+        .product-price {
+            font-size: 16px;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .logo {
+                text-align: left;
+                margin-bottom: 10px;
+                flex: 1;
+            }
+            .search-bar {
+                margin: 10px 0;
+            }
+            .nav-icons {
+                justify-content: center;
+                margin-top: 10px;
+            }
+            .nav-bottom {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-bottom a {
+                margin: 5px 0;
+            }
+            .carousel-item {
+                height: 300px;
+                font-size: 24px;
+            }
+            .section-title {
+                font-size: 28px;
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 24px;
+            }
+            .carousel-item {
+                height: 200px;
+                font-size: 20px;
+            }
+            .carousel-button {
+                font-size: 18px;
+                padding: 8px 12px;
+            }
+            .section-title {
+                font-size: 24px;
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            .product-title {
+                font-size: 16px;
+            }
+            .product-price {
+                font-size: 14px;
+            }
+        }
+
+/* Hide mobile elements on PC */
+.search-bar-mobile,
+.nav-icons-mobile {
+    display: none;
+}
+
+/* Adjust nav-container layout */
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    margin-bottom: 30px; /* Add margin to create a gap between nav-container and nav-bottom */
+}
+
+.nav-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Add some spacing between links */
+}
+
+
+.logo {
+    flex: 0 0 auto;
+    margin-right: 20px;
+}
+
+.search-bar {
+    flex: 1 1 auto;
+    max-width: 400px;
+    margin: 0 20px;
+}
+
+.nav-icons {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.menu-icon {
+    flex: 0 0 auto;
+    
+    display: none;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .search-bar-mobile,
+    .nav-icons-mobile {
+        display: block;
+    }
+
+
+
+    .search-bar-mobile input {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 25px;
+        background-color: rgba(255,255,255,0.2);
+        color: var(--light-text-color);
+        font-size: 16px;
+    }
+
+    .nav-icons-mobile {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .nav-icons-mobile .account-icon,
+    .nav-icons-mobile .cart-icon {
+        font-size: 24px;
+        color: var(--light-text-color);
+        margin: 0 10px;
+    }
+
+    /* Hide desktop search bar and nav icons on mobile */
+    .nav-container .search-bar,
+    .nav-container .nav-icons {
+        display: none;
+    }
+
+    /* Adjust nav-container for mobile */
+    .nav-container {
+        
+        display: flex;
+        align-items: center; /* Center items vertically */
+        justify-content: space-between; /* Distribute space between logo and menu icon */
+        flex-direction: row; /* Arrange items in a row */
+  
+    }
+
+    .logo {
+        flex: 1; /* Take up remaining space */
+        text-align: left; /* Align text to the left */
+        margin-left: 5px; /* Add margin to the left */
+        margin-right: 40px;
+    }
+
+    .menu-icon {
+    display: block;
+    flex: 1;
+        text-align: right;
+    margin-left: -50px;
+    cursor: pointer;
+}
+
+.nav-container.expanded .nav-icons,
+.nav-container.expanded .search-bar {
+    display: flex; /* Show items when expanded */
+}
+
+.nav-bottom {
+    max-height: 0; /* Start with max-height 0 */
+    overflow: hidden; /* Hide overflow content */
+    flex-direction: column;
+    align-items: center;
+    opacity: 0; /* Start with opacity 0 */
+    transition: max-height 0.5s ease, opacity 0.5s ease; /* Smooth transition */
+}
+
+.nav-bottom.expanded {
+    max-height: 500px; /* Set a large enough max-height for expanded state */
+    opacity: 1; /* Make it fully visible */
+}
+
+.nav-bottom a {
+    margin: 5px 0; /* Add spacing between mobile menu items */
+}
+
+.nav-container {
+  
+        display: flex;
+        align-items: center; /* Center items vertically */
+        justify-content: space-between; /* Distribute space between logo and menu icon */
+        flex-direction: row; /* Arrange items in a row */
+    
+}
+
+.search-bar-mobile {
+        flex: 2; /* Make search bar take up more space */
+        text-align: center; /* Center the search bar */
+        display: block; /* Ensure search bar is visible */
+    }
+
+}
+
+.product-card img {
+    width: 100%; /* Fixed width */
+    height: 70%; /* Fixed height */
+    object-fit: cover; /* Maintain aspect ratio, cover the fixed size */
+}
+
+.carousel-item img {
+    max-width: 100%; /* Ensure images don't overflow */
+    height: auto; /* Maintain image aspect ratio */
+    object-fit: cover; /* Ensure the image fits well within the container */
+}
+
+.logo img {
+    max-width: 70px; /* Adjust to your preferred logo width */
+    height: auto; /* Maintain the aspect ratio of the logo */
+    border-radius: 50%;
+}
+
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="https://yt3.ggpht.com/cS6igxzHSUYKyRksDAauH1tu6W6YYbq1xuMNPN0-86hyCi38m31cPqc0QRU-ViiJ0Am_K9W4=s800-c-k-c0x00ffffff-no-rj" alt="Logo" />
+                </div>                
+                <div class="search-bar-mobile">
+                    <input type="text" placeholder="Search for products...">
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for products...">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <div class="nav-icons">
+                    <div class="account-icon">👤</div>
+                    <div class="cart-icon">🛒</div>
+                </div>
+                <div class="menu-icon">☰</div>
+            </div>
+            <div class="nav-bottom">
+
+                <div class="nav-icons-mobile">
+                    <div class="account-icon">👤</div>
+                    <div class="cart-icon">🛒</div>
+                </div>
+                <a href="#">HOME</a>
+                <a href="#">SHOP</a>
+                <a href="#">SAREE COLLECTIONS</a>
+                <a href="#">WOMEN</a>
+                <a href="#">LINGERIE</a>
+                <a href="#">OTHERS</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero">
+            <div class="carousel">
+                <div class="carousel-item">
+                    <img src="https://img.youtube.com/vi/gw5KVwVGlIY/maxresdefault.jpg" alt="First Carousel Image" />
+                </div>
+                <div class="carousel-item">
+                    <img src="https://img.youtube.com/vi/qZAEFUaIX6g/maxresdefault.jpg" alt="Second Carousel Image" />
+                </div>
+                <div class="carousel-item">
+                    <img src="https://img.youtube.com/vi/E80Ou9pzgIw/maxresdefault.jpg" alt="Third Carousel Image" />
+                </div>
+            </div>
+            
+            <button class="carousel-button prev">&#10094;</button>
+            <button class="carousel-button next">&#10095;</button>
+        </section>
+
+        <section class="products">
+            <h2 class="section-title">Best Sellers</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-5.fna.fbcdn.net/v/t39.30808-6/457410175_548895977706695_8473433625578344285_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF1DPT7in6eq6Qo_ElxZ2UXn6FVoV8xtJyfoVWhXzG0nJNHynvBOYz1Av39lseuaMIrBxYK-6G27tA0p-2q7raW&_nc_ohc=lhz_lVAVRbEQ7kNvgFiaRbg&_nc_ht=scontent.fdac24-5.fna&_nc_gid=ApPvRm5wNulLPYi8StKBmEq&oh=00_AYBfxz2vFX-w6Kpm5Dm55I0aKO2TyB9GIcvrPEj8Wm8B7Q&oe=66DDEB48" alt="Elegant Saree">
+                    <div class="product-info">
+                        <h3 class="product-title">Yellow dress</h3>
+                        <p class="product-price">1,500 taka</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-5.fna.fbcdn.net/v/t39.30808-6/457520381_548895961040030_2903831641267601381_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEZrH76vCfMDuhiYsiJH7I-kIDqhLmTMvWQgOqEuZMy9YMia1oEhroH0yPOmLt-ccEjsBfb9MKXC53NLflNejL8&_nc_ohc=k-kh6QNv-HEQ7kNvgEESfQI&_nc_ht=scontent.fdac24-5.fna&oh=00_AYB_7C51W9IEJgVEN4SD75EmqzPW3S8Vruhqax2oZESwGQ&oe=66DE0F64" alt="Summer Dress">
+                    <div class="product-info">
+                        <h3 class="product-title">red dress</h3>
+                        <p class="product-price">2,000 taka</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-3.fna.fbcdn.net/v/t39.30808-6/457223813_548895911040035_6038840004621084747_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGdXmPmiYkONVZ5GPaeO_bSXDPZABar2n1cM9kAFqvafRt4BPS5pdNgp4ta83k7Hfa3kdoJkVLRvB6pHcnZ0jYN&_nc_ohc=ghuyimMpOC4Q7kNvgG-EcOZ&_nc_ht=scontent.fdac24-3.fna&oh=00_AYAblqvJl__0ATv6r02uwdzwSVTAdQSjX1BBpzCrf23hRA&oe=66DE1647" alt="Lace Lingerie Set">
+                    <div class="product-info">
+                        <h3 class="product-title">Shundor dress</h3>
+                        <p class="product-price">1,200 taka</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-3.fna.fbcdn.net/v/t39.30808-6/457230371_548895831040043_6427806051893347909_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEBb7n3p6cBMkB5FRfp_23T6DPy9f_C5p3oM_L1_8LmnViKoFnfRGKM38UaQq_N01sFK7W04xiuO8NLOWGmvDHr&_nc_ohc=gZpc4KfYbxgQ7kNvgGo8h24&_nc_ht=scontent.fdac24-3.fna&_nc_gid=ADekNveC6mBt4y0ppcUhQW2&oh=00_AYBF7mb4jeXwsaoUWnImXASchCuphmBKUWMS1eMlZjOtlg&oe=66DE0D68" alt="Denim Jacket">
+                    <div class="product-info">
+                        <h3 class="product-title">black and white dress</h3>
+                        <p class="product-price">2,500 taka</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-5.fna.fbcdn.net/v/t39.30808-6/457255997_548895697706723_6352549940518628073_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGXwxLoex9cQ-E591khmr-J1HXRfUlI_ZjUddF9SUj9mPw2G8RDhD1T-kzpYg6_Jan1ASJ2-i8hDXkz7KZQJqcP&_nc_ohc=PuxusLLugUwQ7kNvgFTCUuE&_nc_ht=scontent.fdac24-5.fna&oh=00_AYBfGVCQ3ddNbsC8XtWWpeLPVpX5QRQ9kJJMcPCHWQgGSw&oe=66DEE565" alt="Denim Jacket">
+                    <div class="product-info">
+                        <h3 class="product-title">Green aesthetic dress</h3>
+                        <p class="product-price">1,600 taka</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-2.fna.fbcdn.net/v/t39.30808-6/451501503_520950793834547_5894611170161052324_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHZwwVim5fPdi0iy2XiTohEhLn7Kji2ODWEufsqOLY4NWkrvwhLg18Wxlde9KRA77_umkKm596wjc1qceuXKX-0&_nc_ohc=0BOslc2N6-EQ7kNvgGN4CAt&_nc_ht=scontent.fdac24-2.fna&oh=00_AYBSXi9zmhYJZ_c6PTrfo-iaNFXZL2Q7jkEIzeZT7qfc2Q&oe=66DEC5C0" alt="Denim Jacket">
+                    <div class="product-info">
+                        <h3 class="product-title">Blue shundor dress</h3>
+                        <p class="product-price">1,400 taka</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-5.fna.fbcdn.net/v/t39.30808-6/451662027_520543723875254_7290147419391088309_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeH2oxXgVjSC8tNpfr_p6YJ1nHOPLWVmlU-cc48tZWaVTxmF6orhgsQTWzXtl2WdIRkraGlsnfCJCd_Psj9YJPnx&_nc_ohc=L_E5YvAgo7AQ7kNvgFnuKnc&_nc_ht=scontent.fdac24-5.fna&oh=00_AYAiUHgj2K5YHSXZORPcSRHpme2mZeXxxuxcZCqjggkbZA&oe=66DEEC83" alt="Denim Jacket">
+                    <div class="product-info">
+                        <h3 class="product-title">White just a dress</h3>
+                        <p class="product-price">1,800 taka</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-4.fna.fbcdn.net/v/t39.30808-6/445066516_489652723631021_739229320434368296_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHus1kzu6aVfZu5yYYNCnzO6RX-Bk3bxmPpFf4GTdvGYwQ5eVXKs5VjGjNsyOadyIWCeazPEVgPNIDM_VNFyhcL&_nc_ohc=_pDLiN1AnXwQ7kNvgHEGs9g&_nc_ht=scontent.fdac24-4.fna&_nc_gid=Ay1KdyeaQE1u9TEhfCjHkqk&oh=00_AYDlco_cNXF8vPauiP6Uoo9Lmu7X0TNwGRksgjsZwYbxSQ&oe=66DEEBA5" alt="Denim Jacket">
+                    <div class="product-info">
+                        <h3 class="product-title">Sky blue dress</h3>
+                        <p class="product-price">2,100 taka</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-4.fna.fbcdn.net/v/t39.30808-6/441519999_489652420297718_4074845337815464664_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHm2QxHhxEE6MflqXLUTggEfGkAZpJKHht8aQBmkkoeGwza917gkZauuaVeglIWbrTdFGxcv5YBb1xiSTRgZDFd&_nc_ohc=d8W0VUxVfv4Q7kNvgEmxCEZ&_nc_ht=scontent.fdac24-4.fna&oh=00_AYAJuimZZzZvZ0V1m9nVOvfy_gWFHSGc0a9KbAXNEUZuqw&oe=66DEC2CE" alt="Denim Jacket">
+                    <div class="product-info">
+                        <h3 class="product-title">Green Dress with extra aesthetic</h3>
+                        <p class="product-price">1,800 taka</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-2.fna.fbcdn.net/v/t39.30808-6/437601186_468202512442709_5631457327590963621_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHuOsTH6cjiUkT7UxApMek-iXDGduhhlNSJcMZ26GGU1BOo4YgiR_R3AzwtQm0cZmtSRF__dBq5aF9Q0VbXyGZu&_nc_ohc=gc-jAzIT4bYQ7kNvgGtj4XR&_nc_ht=scontent.fdac24-2.fna&_nc_gid=AmyxVxuhUP3lHLt3J3nSTVH&oh=00_AYBgfdFpnna7eEs-c7am9Ydc6SYbFw_6PjkRpVQ8dFln5w&oe=66DEE28E" alt="Denim Jacket">
+                    <div class="product-info">
+                        <h3 class="product-title">Purple Dress</h3>
+                        <p class="product-price">2,800 taka</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-1.fna.fbcdn.net/v/t39.30808-6/434034531_453488770580750_6688610148437510978_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEOvdQZSYAik_Rae68t3taSfKy-Edms1ol8rL4R2azWiYWQd1pFyFmPgq-LSX-J03W_uvWSo7O1-N1LMOhhmqsy&_nc_ohc=gvnob600dFYQ7kNvgH9P34E&_nc_ht=scontent.fdac24-1.fna&oh=00_AYAV1XT8y-TX9vothLp1vJNdN6RFRWvJuszd4FGyaoHQnw&oe=66DEC4A5" alt="Denim Jacket">
+                    <div class="product-info">
+                        <h3 class="product-title">Red dress</h3>
+                        <p class="product-price">2,600 taka</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://scontent.fdac24-4.fna.fbcdn.net/v/t39.30808-6/431541101_441525955110365_2199625192049126680_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF8j-8dWjKJeHC-UkAvgewgcFipITKETH5wWKkhMoRMft2eKSv1SR4nM4xEAyjkUYqyO6nI2xno1ftX9B-DL56K&_nc_ohc=TPjHgB3eI48Q7kNvgEUESW8&_nc_ht=scontent.fdac24-4.fna&oh=00_AYBYbgEoLcdV22h_QYCus1EAKUZdENKTnm_13qxyaRAUaA&oe=66DEE13E" alt="Denim Jacket">
+                    <div class="product-info">
+                        <h3 class="product-title">Blue dress</h3>
+                        <p class="product-price">1,900 taka</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Initialize the carousel
+        let slider = tns({
+            container: '.carousel',
+            items: 1,
+            slideBy: 'page',
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplayButtonOutput: false,
+            controls: false,
+            nav: false
+        });
+
+        // Add custom navigation
+        document.querySelector('.prev').addEventListener('click', () => {
+            slider.goTo('prev');
+            slider.pause(); // Pause autoplay when manually navigating
+            setTimeout(() => slider.play(), 10000); // Resume autoplay after 10 seconds
+        });
+        document.querySelector('.next').addEventListener('click', () => {
+            slider.goTo('next');
+            slider.pause(); // Pause autoplay when manually navigating
+            setTimeout(() => slider.play(), 10000); // Resume autoplay after 10 seconds
+        });
+
+        // Toggle menu visibility on mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuIcon = document.querySelector('.menu-icon');
+            const navBottom = document.querySelector('.nav-bottom');
+
+            menuIcon.addEventListener('click', function() {
+                navBottom.classList.toggle('expanded');
+            });
+        });
+    </script>
+</body>
+
+</html>

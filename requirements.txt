@@ -1,0 +1,2 @@
+Flask==2.3.2  # Your Flask version
+gunicorn==20.1.0  # Add Gunicorn
